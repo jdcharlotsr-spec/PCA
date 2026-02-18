@@ -3,53 +3,77 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Pentecostal Covenant Alliance</title>
+    <title>Pentecostal Covenant Alliance | Kingdom · Covenant · Unity</title>
     <style>
-        /* --- Palette: "Modern Majesty" --- */
+        /* --- CSS Variables: "Modern Majesty" --- */
         :root {
-            --bg-white: #ffffff;
-            --bg-cream: #F5F3EF;       /* Light Beige */
-            --bg-tan: #E6E2D6;         /* Darker Beige for accents */
+            /* Colors */
+            --bg-body: #F9F7F2;        /* Rich Cream */
+            --bg-card: #FFFFFF;        /* Pure White */
+            --primary-purple: #3E2F5B; /* Royal Deep Purple */
+            --accent-burgundy: #722F37;/* Velvet Burgundy */
+            --accent-gold: #D4C5A5;    /* Muted Champagne Gold */
+            --text-main: #2C2C2C;
+            --text-muted: #666666;
+
+            /* Typography */
+            --font-display: 'Playfair Display', Georgia, serif;
+            --font-body: 'Lato', Helvetica, Arial, sans-serif;
+
+            /* Shape & Depth */
+            --radius: 20px;            /* The requested rounded look */
+            --radius-btn: 50px;
+            --shadow-soft: 0 10px 40px rgba(62, 47, 91, 0.08);
+            --shadow-hover: 0 20px 50px rgba(62, 47, 91, 0.15);
             
-            --primary-purple: #3A2E55; /* Muted Deep Purple */
-            --accent-burgundy: #722F37; /* Wine/Burgundy Hint */
-            --text-dark: #2C2C2C;      /* Charcoal */
-            --text-light: #666666;     /* Soft Gray */
-            
-            --font-serif: 'Playfair Display', Georgia, serif; /* Elegant Headings */
-            --font-sans: 'Lato', Helvetica, Arial, sans-serif; /* Clean Body */
-            
-            --spacing-section: 6rem;
+            /* Animation timings */
+            --transition: all 0.4s cubic-bezier(0.25, 0.8, 0.25, 1);
         }
 
-        /* Import Fonts */
+        /* Fonts */
         @import url('https://fonts.googleapis.com/css2?family=Lato:wght@300;400;700&family=Playfair+Display:ital,wght@0,400;0,700;1,400&display=swap');
 
+        /* --- Reset & Base --- */
         * { margin: 0; padding: 0; box-sizing: border-box; }
-
+        html { scroll-behavior: smooth; }
+        
         body {
-            background-color: var(--bg-white);
-            color: var(--text-dark);
-            font-family: var(--font-sans);
-            line-height: 1.7;
+            background-color: var(--bg-body);
+            color: var(--text-main);
+            font-family: var(--font-body);
+            line-height: 1.8;
+            overflow-x: hidden;
         }
 
-        /* --- Elegant Navigation --- */
+        /* --- Utility: Reveal Animation Class --- */
+        .reveal {
+            opacity: 0;
+            transform: translateY(30px);
+            transition: all 0.8s ease-out;
+        }
+        .reveal.active {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        /* --- Navigation --- */
         nav {
+            background: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(10px);
+            padding: 1rem 5%;
+            position: sticky;
+            top: 0;
+            z-index: 1000;
             display: flex;
             justify-content: space-between;
             align-items: center;
-            padding: 2rem 5%;
-            background: var(--bg-white);
-            position: sticky;
-            top: 0;
-            z-index: 100;
-            border-bottom: 1px solid var(--bg-tan);
+            box-shadow: 0 5px 20px rgba(0,0,0,0.03);
+            border-bottom: 1px solid rgba(0,0,0,0.05);
         }
 
-        .nav-brand {
-            font-family: var(--font-serif);
-            font-size: 1.5rem;
+        .nav-logo {
+            font-family: var(--font-display);
+            font-size: 1.4rem;
             font-weight: 700;
             color: var(--primary-purple);
             letter-spacing: -0.5px;
@@ -57,441 +81,545 @@
 
         .nav-links {
             display: flex;
-            gap: 2.5rem;
+            gap: 2rem;
         }
 
         .nav-links a {
             text-decoration: none;
-            color: var(--text-dark);
+            color: var(--text-main);
             font-size: 0.85rem;
             text-transform: uppercase;
-            letter-spacing: 1.5px;
-            transition: color 0.3s;
+            letter-spacing: 1px;
+            font-weight: 700;
+            transition: var(--transition);
+            position: relative;
+        }
+
+        .nav-links a::after {
+            content: '';
+            position: absolute;
+            width: 0; height: 2px;
+            bottom: -5px; left: 0;
+            background-color: var(--accent-burgundy);
+            transition: var(--transition);
         }
 
         .nav-links a:hover { color: var(--accent-burgundy); }
+        .nav-links a:hover::after { width: 100%; }
 
-        /* --- Hero Section (Centered & Clean) --- */
+        /* Mobile Hamburger */
+        .hamburger { display: none; cursor: pointer; font-size: 1.5rem; color: var(--primary-purple); }
+
+        /* --- Hero Section --- */
         .hero {
-            background-color: var(--bg-cream);
-            text-align: center;
-            padding: 5rem 1rem 7rem 1rem;
+            min-height: 90vh;
             display: flex;
             flex-direction: column;
+            justify-content: center;
             align-items: center;
+            text-align: center;
+            padding: 2rem;
+            background: radial-gradient(circle at center, #ffffff 0%, var(--bg-body) 100%);
         }
 
-        .hero-seal {
-            width: 180px;
-            height: 180px;
-            margin-bottom: 2.5rem;
+        .seal-container {
+            width: 220px; height: 220px;
+            margin-bottom: 2rem;
             border-radius: 50%;
-            /* Subtle shadow for depth */
-            box-shadow: 0 10px 30px rgba(58, 46, 85, 0.1); 
+            padding: 8px;
+            background: white;
+            box-shadow: var(--shadow-soft);
+            animation: float 6s ease-in-out infinite;
         }
         
-        .hero-seal img { width: 100%; height: 100%; object-fit: cover; border-radius: 50%; }
+        .seal-container img { width: 100%; height: 100%; object-fit: cover; border-radius: 50%; }
 
         .hero h1 {
-            font-family: var(--font-serif);
-            font-size: 3.5rem;
+            font-family: var(--font-display);
+            font-size: 4rem;
             color: var(--primary-purple);
+            line-height: 1.1;
             margin-bottom: 1rem;
-            line-height: 1.2;
         }
 
-        .hero p {
-            font-size: 1.1rem;
+        .hero-tagline {
+            font-size: 1.2rem;
             color: var(--accent-burgundy);
-            font-weight: 400;
-            letter-spacing: 2px;
             text-transform: uppercase;
+            letter-spacing: 3px;
             margin-bottom: 3rem;
-            border-top: 1px solid var(--accent-burgundy);
-            border-bottom: 1px solid var(--accent-burgundy);
+            font-weight: 400;
+            position: relative;
             display: inline-block;
-            padding: 0.5rem 1rem;
+            padding: 0 20px;
         }
 
-        .btn-burgundy {
+        .hero-tagline::before, .hero-tagline::after {
+            content: '•'; color: var(--accent-gold); position: absolute; top: 0;
+        }
+        .hero-tagline::before { left: 0; }
+        .hero-tagline::after { right: 0; }
+
+        .btn-primary {
+            display: inline-block;
             background-color: var(--accent-burgundy);
             color: white;
-            padding: 15px 40px;
+            padding: 18px 45px;
+            border-radius: var(--radius-btn);
             text-decoration: none;
-            font-size: 0.9rem;
-            text-transform: uppercase;
+            font-weight: 700;
             letter-spacing: 1px;
-            transition: background 0.3s;
+            box-shadow: 0 10px 20px rgba(114, 47, 55, 0.3);
+            transition: var(--transition);
         }
 
-        .btn-burgundy:hover { background-color: var(--primary-purple); }
-
-        /* --- Content Layout --- */
-        .container {
-            max-width: 1000px;
-            margin: 0 auto;
-            padding: var(--spacing-section) 2rem;
+        .btn-primary:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 15px 30px rgba(114, 47, 55, 0.4);
+            background-color: var(--primary-purple);
         }
 
-        .section-header {
-            text-align: center;
-            margin-bottom: 4rem;
-        }
-
+        /* --- Sections Layout --- */
+        .section { padding: 6rem 2rem; max-width: 1200px; margin: 0 auto; }
+        
+        .section-header { text-align: center; margin-bottom: 5rem; }
         .section-header h2 {
-            font-family: var(--font-serif);
-            font-size: 2.5rem;
-            color: var(--primary-purple);
-        }
-
-        .section-header .sub {
-            color: var(--text-light);
-            font-style: italic;
-            margin-top: 0.5rem;
-        }
-
-        /* --- Leadership Grid (Minimal Cards) --- */
-        .grid-leaders {
-            display: grid;
-            grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
-            gap: 3rem;
-            text-align: center;
-        }
-
-        .leader-card img {
-            width: 100%;
-            height: 280px;
-            object-fit: cover;
-            margin-bottom: 1.5rem;
-            filter: grayscale(20%); /* Artistic touch */
-            transition: filter 0.3s;
-            background-color: #eee;
-        }
-
-        .leader-card:hover img { filter: grayscale(0%); }
-
-        .leader-card h3 {
-            font-family: var(--font-serif);
-            font-size: 1.2rem;
-            color: var(--primary-purple);
-            margin-bottom: 0.3rem;
-        }
-
-        .leader-card p {
-            font-size: 0.85rem;
-            color: var(--accent-burgundy);
-            text-transform: uppercase;
-            letter-spacing: 1px;
-        }
-        
-        .leader-card .region {
-            font-size: 0.8rem;
-            color: var(--text-light);
-            text-transform: none;
-            margin-top: 0.3rem;
-            font-style: italic;
-        }
-
-        /* --- Regions (Clean Text List) --- */
-        .region-section {
-            background-color: var(--bg-cream);
-            padding: 6rem 2rem;
-        }
-        
-        .region-list {
-            display: flex;
-            flex-wrap: wrap;
-            justify-content: center;
-            gap: 4rem;
-            text-align: center;
-        }
-        
-        .region-item h3 {
-            font-family: var(--font-serif);
-            font-size: 1.8rem;
+            font-family: var(--font-display);
+            font-size: 3rem;
             color: var(--primary-purple);
             margin-bottom: 0.5rem;
         }
-        
-        .region-item p { color: var(--text-light); }
-
-        /* --- Events (Beige Box) --- */
-        .event-box {
-            border: 1px solid var(--bg-tan);
-            padding: 3rem;
-            text-align: center;
-            margin-top: 2rem;
-            background: linear-gradient(to bottom, #fff, var(--bg-cream));
-        }
-
-        .date-large {
-            display: block;
-            font-size: 3rem;
-            font-family: var(--font-serif);
-            color: var(--accent-burgundy);
-            line-height: 1;
-            margin-bottom: 1rem;
-        }
-
-        /* --- Accordion (Modern Line) --- */
-        .accordion {
-            max-width: 800px;
-            margin: 0 auto;
-        }
-
-        details {
-            border-bottom: 1px solid var(--bg-tan);
-            margin-bottom: 1rem;
-            padding-bottom: 1rem;
-        }
-
-        summary {
-            font-family: var(--font-serif);
+        .section-header .subtitle {
+            font-family: var(--font-display);
+            font-style: italic;
+            color: var(--text-muted);
             font-size: 1.2rem;
-            color: var(--primary-purple);
+        }
+
+        /* --- About Card --- */
+        .about-card {
+            background: var(--bg-card);
+            padding: 4rem;
+            border-radius: var(--radius);
+            box-shadow: var(--shadow-soft);
+            text-align: center;
+            max-width: 900px;
+            margin: 0 auto;
+            border-bottom: 5px solid var(--accent-gold);
+        }
+
+        /* --- Leadership Grid --- */
+        .leaders-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 2rem;
+        }
+
+        .leader-card {
+            background: var(--bg-card);
+            border-radius: var(--radius);
+            overflow: hidden;
+            box-shadow: var(--shadow-soft);
+            transition: var(--transition);
+            text-align: center;
+            padding-bottom: 2rem;
+        }
+
+        .leader-card:hover {
+            transform: translateY(-10px);
+            box-shadow: var(--shadow-hover);
+        }
+
+        .leader-img-wrapper {
+            width: 100%;
+            height: 320px;
+            overflow: hidden;
+            background-color: #ddd;
+        }
+
+        .leader-img-wrapper img {
+            width: 100%; height: 100%; object-fit: cover;
+            filter: grayscale(100%);
+            transition: var(--transition);
+        }
+
+        .leader-card:hover .leader-img-wrapper img {
+            filter: grayscale(0%);
+            transform: scale(1.05);
+        }
+
+        .leader-info { padding: 1.5rem 1rem 0; }
+        .leader-name { font-family: var(--font-display); font-size: 1.3rem; color: var(--primary-purple); margin-bottom: 0.2rem; }
+        .leader-role { color: var(--accent-burgundy); font-size: 0.85rem; font-weight: 700; text-transform: uppercase; letter-spacing: 1px; }
+        .leader-sub { color: var(--text-muted); font-size: 0.85rem; margin-top: 5px; font-style: italic; }
+
+        /* --- Regions (Cards) --- */
+        .regions-wrapper { display: flex; flex-wrap: wrap; justify-content: center; gap: 2rem; }
+        .region-card {
+            background: white;
+            padding: 3rem 2rem;
+            border-radius: var(--radius);
+            width: 300px;
+            text-align: center;
+            box-shadow: var(--shadow-soft);
+            border: 1px solid rgba(0,0,0,0.03);
+            transition: var(--transition);
+        }
+        .region-card:hover { border-color: var(--accent-gold); transform: translateY(-5px); }
+        .region-title { font-family: var(--font-display); font-size: 1.5rem; color: var(--primary-purple); margin-bottom: 0.5rem; }
+        .region-loc { color: var(--text-muted); font-style: italic; }
+
+        /* --- Events --- */
+        .event-banner {
+            background: linear-gradient(135deg, var(--primary-purple), #2a1f40);
+            color: white;
+            border-radius: var(--radius);
+            padding: 4rem;
+            text-align: center;
+            box-shadow: var(--shadow-soft);
+            position: relative;
+            overflow: hidden;
+        }
+        .event-banner::before {
+            content: ''; position: absolute; top: 0; left: 0; width: 100%; height: 5px; background: var(--accent-gold);
+        }
+        .date-badge {
+            display: inline-block;
+            background: rgba(255,255,255,0.1);
+            padding: 10px 20px;
+            border-radius: 50px;
+            margin-bottom: 1.5rem;
+            font-weight: 700;
+            color: var(--accent-gold);
+            border: 1px solid rgba(255,255,255,0.2);
+        }
+
+        /* --- Accordion (JS Powered) --- */
+        .accordion-item {
+            background: white;
+            border-radius: var(--radius);
+            margin-bottom: 1rem;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.03);
+            overflow: hidden;
+        }
+        .accordion-header {
+            padding: 1.5rem 2rem;
             cursor: pointer;
-            list-style: none;
             display: flex;
             justify-content: space-between;
             align-items: center;
+            font-family: var(--font-display);
+            font-size: 1.1rem;
+            color: var(--primary-purple);
+            transition: background 0.3s;
         }
-        
-        summary::-webkit-details-marker { display: none; }
-        
-        summary::after { content: '+'; color: var(--accent-burgundy); font-weight: 300; font-size: 1.5rem; }
-        details[open] summary::after { content: '-'; }
+        .accordion-header:hover { background: #fcfcfc; }
+        .accordion-icon {
+            font-size: 1.5rem; color: var(--accent-burgundy); transition: transform 0.3s;
+        }
+        .accordion-content {
+            max-height: 0;
+            overflow: hidden;
+            transition: max-height 0.4s ease-out;
+            padding: 0 2rem;
+            opacity: 0;
+        }
+        .accordion-item.active .accordion-content {
+            padding-bottom: 1.5rem;
+            opacity: 1;
+        }
+        .accordion-item.active .accordion-icon { transform: rotate(45deg); }
 
-        .detail-content {
-            padding-top: 1rem;
-            color: var(--text-light);
-            font-size: 0.95rem;
+        /* --- Form --- */
+        .form-grid {
+            display: grid; grid-template-columns: 1fr 1fr; gap: 1.5rem;
+            background: white; padding: 3rem; border-radius: var(--radius);
+            box-shadow: var(--shadow-soft);
         }
-
-        /* --- Form (Simple) --- */
-        .form-row {
-            display: grid;
-            grid-template-columns: 1fr 1fr;
-            gap: 1.5rem;
-            margin-bottom: 1.5rem;
-        }
-        
+        .full-width { grid-column: span 2; }
         input, select, textarea {
-            width: 100%;
-            padding: 15px;
-            border: 1px solid var(--bg-tan);
-            background: var(--bg-white);
-            font-family: var(--font-sans);
-            font-size: 0.9rem;
-            outline: none;
+            width: 100%; padding: 16px;
+            border: 2px solid #eee; border-radius: 12px;
+            font-family: var(--font-body); font-size: 1rem;
+            transition: var(--transition); background: #fafafa;
         }
-        
-        input:focus, textarea:focus { border-color: var(--primary-purple); }
+        input:focus, textarea:focus, select:focus {
+            outline: none; border-color: var(--accent-burgundy); background: white;
+        }
 
         /* --- Footer --- */
         footer {
-            background-color: var(--primary-purple);
-            color: var(--bg-cream);
-            text-align: center;
-            padding: 3rem;
-            font-size: 0.8rem;
-            letter-spacing: 1px;
+            background: var(--primary-purple); color: rgba(255,255,255,0.7);
+            text-align: center; padding: 4rem 2rem; margin-top: 4rem;
         }
 
+        /* --- Animations --- */
+        @keyframes float {
+            0%, 100% { transform: translateY(0); }
+            50% { transform: translateY(-15px); }
+        }
+
+        /* --- Mobile --- */
         @media (max-width: 768px) {
-            .hero h1 { font-size: 2.5rem; }
-            .form-row { grid-template-columns: 1fr; }
-            .nav-links { display: none; } /* Add JS for mobile menu if needed */
+            .hero h1 { font-size: 2.8rem; }
+            .nav-links {
+                display: none; flex-direction: column;
+                position: absolute; top: 100%; left: 0; width: 100%;
+                background: white; padding: 2rem; text-align: center;
+                box-shadow: 0 10px 20px rgba(0,0,0,0.1);
+            }
+            .nav-links.active { display: flex; }
+            .hamburger { display: block; }
+            .form-grid { grid-template-columns: 1fr; }
+            .full-width { grid-column: span 1; }
         }
     </style>
 </head>
 <body>
 
     <nav>
-        <div class="nav-brand">PCA</div>
-        <div class="nav-links">
-            <a href="#about">About</a>
-            <a href="#leadership">Leadership</a>
-            <a href="#regions">Regions</a>
-            <a href="#events">Gatherings</a>
-            <a href="#join">Join</a>
+        <div class="nav-logo">PCA</div>
+        <div class="hamburger" onclick="toggleMenu()">☰</div>
+        <div class="nav-links" id="navLinks">
+            <a href="#about" onclick="toggleMenu()">About</a>
+            <a href="#leadership" onclick="toggleMenu()">Leadership</a>
+            <a href="#regions" onclick="toggleMenu()">Regions</a>
+            <a href="#events" onclick="toggleMenu()">Gatherings</a>
+            <a href="#join" onclick="toggleMenu()">Join</a>
         </div>
     </nav>
 
     <header class="hero">
-        <div class="hero-seal">
+        <div class="seal-container reveal active">
             <img src="PCA-Seal.jpg" alt="PCA Official Seal">
         </div>
-        <h1>Pentecostal Covenant<br>Alliance</h1>
-        <p>Kingdom · Covenant · Unity</p>
-        <div style="font-family: var(--font-serif); font-style: italic; color: var(--text-light); margin-bottom: 2rem;">Acts 2:42</div>
-        <a href="#join" class="btn-burgundy">Partner With Us</a>
+        <h1 class="reveal active">Pentecostal Covenant<br>Alliance</h1>
+        <div class="hero-tagline reveal active">Kingdom · Covenant · Unity</div>
+        <div class="reveal active" style="margin-top: 2rem;">
+            <a href="#join" class="btn-primary">Partner With Us</a>
+        </div>
+        <p style="margin-top: 2rem; font-style: italic; opacity: 0.6;" class="reveal active">Acts 2:42</p>
     </header>
 
-    <section id="about" class="container" style="text-align: center; max-width: 800px;">
-        <p style="font-size: 1.2rem; color: var(--primary-purple); line-height: 1.8;">
-            Founded by <strong>Bishop J. D. Charlot, Sr.</strong>, the Alliance seeks to re-establish the Move of God that began in Pontiac, MI in 2019. We are a body of believers dedicated to the apostles' doctrine, fellowship, and prayer.
-        </p>
+    <section id="about" class="section">
+        <div class="about-card reveal">
+            <h2 style="font-family: var(--font-display); color: var(--primary-purple); margin-bottom: 1rem;">Our Mandate</h2>
+            <p style="font-size: 1.1rem; color: #555;">
+                Founded by <strong>Bishop J. D. Charlot, Sr.</strong>, the Alliance seeks to re-establish the Move of God that began in Pontiac, MI in 2019. We are a body of believers dedicated to the apostles' doctrine, fellowship, and prayer. We are not just an organization; we are a Covenant family.
+            </p>
+        </div>
     </section>
 
-    <section id="leadership" class="container">
-        <div class="section-header">
+    <section id="leadership" class="section">
+        <div class="section-header reveal">
             <h2>Leadership Council</h2>
-            <div class="sub">Overseeing the Vision</div>
+            <div class="subtitle">The Visionaries</div>
         </div>
 
-        <div class="grid-leaders">
-            <div class="leader-card">
-                <img src="bishop-charlot.jpg" alt="Bishop Charlot">
-                <h3>Bishop J.D. Charlot, Sr.</h3>
-                <p>Chairman & Founder</p>
-                <div class="region">Presiding (4-6 Year Term)</div>
+        <div class="leaders-grid">
+            <div class="leader-card reveal">
+                <div class="leader-img-wrapper">
+                    <img src="bishop-charlot.jpg" alt="Bishop Charlot">
+                </div>
+                <div class="leader-info">
+                    <div class="leader-name">Bishop J.D. Charlot, Sr.</div>
+                    <div class="leader-role">Founder & Chairman</div>
+                    <div class="leader-sub">Presiding (4-6 Year Term)</div>
+                </div>
             </div>
 
-            <div class="leader-card">
-                <img src="supt-adams.jpg" alt="Supt. Adams">
-                <h3>Supt. Adrianne Adams</h3>
-                <p>Regional Superintendent</p>
-                <div class="region">Midwestern Alliance</div>
+            <div class="leader-card reveal">
+                <div class="leader-img-wrapper"><img src="supt-adams.jpg" alt="Supt Adams"></div>
+                <div class="leader-info">
+                    <div class="leader-name">Supt. Adrianne Adams</div>
+                    <div class="leader-role">Midwestern Alliance</div>
+                    <div class="leader-sub">Pontiac, MI</div>
+                </div>
             </div>
 
-            <div class="leader-card">
-                <img src="supt-charlot.jpg" alt="Supt. Charlot">
-                <h3>Supt. Latosha Charlot</h3>
-                <p>Regional Superintendent</p>
-                <div class="region">Greater Texas Alliance</div>
+            <div class="leader-card reveal">
+                <div class="leader-img-wrapper"><img src="supt-charlot.jpg" alt="Supt Charlot"></div>
+                <div class="leader-info">
+                    <div class="leader-name">Supt. Latosha Charlot</div>
+                    <div class="leader-role">Greater Texas Alliance</div>
+                    <div class="leader-sub">Houston, TX</div>
+                </div>
             </div>
 
-            <div class="leader-card">
-                <img src="supt-grant.jpg" alt="Supt. Grant">
-                <h3>Supt. Tyquan Grant</h3>
-                <p>Regional Superintendent</p>
-                <div class="region">Atlantic Alliance</div>
+            <div class="leader-card reveal">
+                <div class="leader-img-wrapper"><img src="supt-grant.jpg" alt="Supt Grant"></div>
+                <div class="leader-info">
+                    <div class="leader-name">Supt. Tyquan Grant</div>
+                    <div class="leader-role">Atlantic Alliance</div>
+                    <div class="leader-sub">Richmond, VA</div>
+                </div>
             </div>
-            
-            <div class="leader-card">
-                <img src="" alt="Vacant" style="opacity: 0.3;">
-                <h3>Vacant Seat</h3>
-                <p>Council Member</p>
+
+            <div class="leader-card reveal" style="opacity: 0.7;">
+                <div class="leader-img-wrapper" style="background:#eee; display:flex; align-items:center; justify-content:center; color:#ccc;">Pending</div>
+                <div class="leader-info"><div class="leader-name">Vacant</div><div class="leader-role">Council Seat</div></div>
             </div>
-            <div class="leader-card">
-                <img src="" alt="Vacant" style="opacity: 0.3;">
-                <h3>Vacant Seat</h3>
-                <p>Council Member</p>
+             <div class="leader-card reveal" style="opacity: 0.7;">
+                <div class="leader-img-wrapper" style="background:#eee; display:flex; align-items:center; justify-content:center; color:#ccc;">Pending</div>
+                <div class="leader-info"><div class="leader-name">Vacant</div><div class="leader-role">Council Seat</div></div>
             </div>
-            <div class="leader-card">
-                <img src="" alt="Vacant" style="opacity: 0.3;">
-                <h3>Vacant Seat</h3>
-                <p>Council Member</p>
+             <div class="leader-card reveal" style="opacity: 0.7;">
+                <div class="leader-img-wrapper" style="background:#eee; display:flex; align-items:center; justify-content:center; color:#ccc;">Pending</div>
+                <div class="leader-info"><div class="leader-name">Vacant</div><div class="leader-role">Council Seat</div></div>
             </div>
         </div>
     </section>
 
-    <section id="regions" class="region-section">
-        <div class="section-header">
+    <section id="regions" class="section" style="background: white;">
+        <div class="section-header reveal">
             <h2>Regional Alliances</h2>
-            <div class="sub">Connecting Locally</div>
+            <div class="subtitle">Connecting Local Ministries</div>
         </div>
-        <div class="region-list">
-            <div class="region-item">
-                <h3>Midwestern</h3>
-                <p>Pontiac, MI</p>
+        <div class="regions-wrapper reveal">
+            <div class="region-card">
+                <div class="region-title">Midwestern</div>
+                <div class="region-loc">Pontiac, MI</div>
             </div>
-            <div class="region-item">
-                <h3>Greater Texas</h3>
-                <p>Houston, TX</p>
+            <div class="region-card">
+                <div class="region-title">Greater Texas</div>
+                <div class="region-loc">Houston, TX</div>
             </div>
-            <div class="region-item">
-                <h3>Atlantic</h3>
-                <p>Richmond, VA</p>
+            <div class="region-card">
+                <div class="region-title">Atlantic</div>
+                <div class="region-loc">Richmond, VA</div>
             </div>
         </div>
-        <p style="text-align: center; margin-top: 3rem; color: var(--accent-burgundy); font-weight: bold;">
+        <p class="reveal" style="text-align: center; margin-top: 2rem; font-size: 0.9rem; color: var(--accent-burgundy);">
             *Any Ordained Minister can serve as Superintendent by appointment.
         </p>
     </section>
 
-    <section id="events" class="container">
-        <div class="section-header">
-            <h2>Holy Convocation</h2>
-            <div class="sub">Annual Gatherings</div>
-        </div>
-        
-        <div class="event-box">
-            <span class="date-large">AUG 5-7, 2026</span>
-            <h3 style="color: var(--primary-purple); font-family: var(--font-serif); font-size: 1.5rem;">National Conference</h3>
-            <p style="color: var(--text-light); margin-top: 0.5rem;">Houston, Texas</p>
-        </div>
-        
-        <div style="text-align: center; margin-top: 2rem; color: var(--text-light); font-style: italic;">
-            Regional Conferences are held once per year, per region (Dates TBA).
+    <section id="events" class="section">
+        <div class="event-banner reveal">
+            <span class="date-badge">AUG 5-7, 2026</span>
+            <h2 style="font-family: var(--font-display); font-size: 2.5rem; margin-bottom: 1rem;">Annual National Conference</h2>
+            <p style="font-size: 1.2rem; margin-bottom: 2rem;">Houston, Texas</p>
+            <a href="#join" style="color: var(--accent-gold); text-decoration: none; font-weight: bold; border-bottom: 1px solid var(--accent-gold);">Register Interest</a>
         </div>
     </section>
 
-    <section id="join" class="container" style="background-color: #fafafa;">
-        <div class="section-header">
-            <h2>Membership & FAQ</h2>
-            <div class="sub">Joining the Covenant</div>
-        </div>
+    <section id="join" class="section">
+        <div class="form-grid">
+            <div>
+                <h3 style="font-family: var(--font-display); color: var(--primary-purple); margin-bottom: 2rem;">Membership & FAQ</h3>
+                
+                <div class="accordion-item">
+                    <div class="accordion-header">
+                        How do I join? <span class="accordion-icon">+</span>
+                    </div>
+                    <div class="accordion-content">
+                        <p>There are 4 ways to join: Attend the National Conference or a Regional Gathering. If you are the first in your area, fill out the form below to start a Region.</p>
+                    </div>
+                </div>
 
-        <div class="accordion">
-            <details>
-                <summary>How do I join?</summary>
-                <div class="detail-content">
-                    There are 4 ways to join: Attend the National Conference or a Regional Gathering. If you are the first in your area, fill out the form below and we will help you start a Region.
+                <div class="accordion-item">
+                    <div class="accordion-header">
+                        Are there fees? <span class="accordion-icon">+</span>
+                    </div>
+                    <div class="accordion-content">
+                        <p>No Fees to Join, No Fees to Stay, No Fees to Leave. We operate by Covenant. We may ask for a seed to help defray conference costs.</p>
+                    </div>
                 </div>
-            </details>
-            <details>
-                <summary>Are there financial fees?</summary>
-                <div class="detail-content">
-                    No fees to join, stay, or leave. We operate by Covenant. We may ask for a seed to help defray conference costs.
-                </div>
-            </details>
-            <details>
-                <summary>Do you affirm women in clergy?</summary>
-                <div class="detail-content">
-                    YES! We fully affirm and support women in ministry leadership and clergy roles.
-                </div>
-            </details>
-            <details>
-                <summary>Is this a denomination?</summary>
-                <div class="detail-content">
-                    No, we are an Alliance. We respect local church autonomy. Episcopal supervision is available upon request but never assumed.
-                </div>
-            </details>
-            <details>
-                <summary>Why "Chairman" instead of "Presiding Bishop"?</summary>
-                <div class="detail-content">
-                    The next leader may not be a Bishop. The Founder intends to serve 4-6 years before passing the Chairmanship.
-                </div>
-            </details>
-        </div>
 
-        <div style="margin-top: 4rem;">
-            <h3 style="text-align: center; color: var(--primary-purple); font-family: var(--font-serif); margin-bottom: 2rem;">Interest Form</h3>
-            <form>
-                <div class="form-row">
-                    <input type="text" placeholder="Full Name" required>
-                    <input type="email" placeholder="Email Address" required>
+                <div class="accordion-item">
+                    <div class="accordion-header">
+                        Women in Clergy? <span class="accordion-icon">+</span>
+                    </div>
+                    <div class="accordion-content">
+                        <p>YES! We fully affirm and support women in ministry leadership and clergy roles.</p>
+                    </div>
                 </div>
-                <div class="form-row">
-                    <input type="text" placeholder="City & State">
-                    <select>
-                        <option>Reason for Inquiry...</option>
-                        <option>Joining at National Conference</option>
-                        <option>Joining at Regional Gathering</option>
-                        <option>Starting a Region (First in area)</option>
-                    </select>
+
+                 <div class="accordion-item">
+                    <div class="accordion-header">
+                        Church Autonomy <span class="accordion-icon">+</span>
+                    </div>
+                    <div class="accordion-content">
+                        <p>We are an Alliance, not a denomination. Episcopal Supervision may be requested, but never assumed.</p>
+                    </div>
                 </div>
-                <textarea rows="4" placeholder="How can we serve you?" style="margin-bottom: 1.5rem;"></textarea>
-                <button type="submit" class="btn-burgundy" style="width: 100%; border: none; cursor: pointer;">Submit Request</button>
-            </form>
+
+            </div>
+
+            <div>
+                <h3 style="font-family: var(--font-display); color: var(--primary-purple); margin-bottom: 2rem;">Interest Form</h3>
+                <form action="#" method="POST">
+                    <div style="display: grid; gap: 1rem;">
+                        <input type="text" placeholder="Full Name" required>
+                        <input type="email" placeholder="Email Address" required>
+                        <input type="text" placeholder="City & State">
+                        <select>
+                            <option>Inquiry Type...</option>
+                            <option>Joining at National Conference</option>
+                            <option>Joining at Regional Gathering</option>
+                            <option>Start a Region (First in area)</option>
+                        </select>
+                        <textarea rows="4" placeholder="How can we serve you?"></textarea>
+                        <button type="submit" class="btn-primary" style="width: 100%; border: none; cursor: pointer;">Submit Request</button>
+                    </div>
+                </form>
+            </div>
         </div>
     </section>
 
     <footer>
-        <p>&copy; 2026 Pentecostal Covenant Alliance</p>
-        <p style="opacity: 0.6; margin-top: 0.5rem;">Est. 2019 | Founder Bishop J. D. Charlot, Sr.</p>
+        <h3 style="font-family: var(--font-display); margin-bottom: 1rem;">Pentecostal Covenant Alliance</h3>
+        <p>&copy; 2026. All Rights Reserved.</p>
+        <p style="font-size: 0.8rem; margin-top: 0.5rem; opacity: 0.6;">Founder: Bishop J. D. Charlot, Sr. | Est. 2019</p>
     </footer>
 
+    <script>
+        // 1. Mobile Menu Toggle
+        function toggleMenu() {
+            const nav = document.getElementById('navLinks');
+            nav.classList.toggle('active');
+        }
+
+        // 2. Accordion Logic
+        const accordions = document.querySelectorAll('.accordion-header');
+        accordions.forEach(header => {
+            header.addEventListener('click', () => {
+                const item = header.parentElement;
+                const content = item.querySelector('.accordion-content');
+                
+                // Close others (Optional - remove this block if you want multiple open)
+                document.querySelectorAll('.accordion-item').forEach(otherItem => {
+                    if (otherItem !== item) {
+                        otherItem.classList.remove('active');
+                        otherItem.querySelector('.accordion-content').style.maxHeight = null;
+                    }
+                });
+
+                // Toggle current
+                item.classList.toggle('active');
+                if (item.classList.contains('active')) {
+                    content.style.maxHeight = content.scrollHeight + "px";
+                } else {
+                    content.style.maxHeight = null;
+                }
+            });
+        });
+
+        // 3. Scroll Reveal Animation
+        function reveal() {
+            var reveals = document.querySelectorAll(".reveal");
+            for (var i = 0; i < reveals.length; i++) {
+                var windowHeight = window.innerHeight;
+                var elementTop = reveals[i].getBoundingClientRect().top;
+                var elementVisible = 100;
+                if (elementTop < windowHeight - elementVisible) {
+                    reveals[i].classList.add("active");
+                }
+            }
+        }
+        window.addEventListener("scroll", reveal);
+        // Trigger once on load
+        reveal();
+    </script>
 </body>
 </html>
